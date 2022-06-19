@@ -1,0 +1,13 @@
+server:
+  port: 8800
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: yanolja-service
+          uri: http://localhost:8080
+          predicates:
+            - Path=/yanolja/**
+          filters:
+            - RewritePath=/yanolja/(?<path>.*),/$\{path}
+
