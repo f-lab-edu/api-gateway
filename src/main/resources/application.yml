@@ -3,8 +3,8 @@ server:
 
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true #client측에서 캐싱할수 있도록 설정
+    register-with-eureka: false #자신을 클라이언트로 등록할지 말지
+    fetch-registry: false #로컬에 캐싱할지말지..client측에서 캐싱할수 있도록 설정
   server:
     wait-time-in-ms-when-sync-empty: 5
   service-url:
@@ -18,7 +18,7 @@ spring:
       routes:
         - id: yanolja-service
           uri: http://localhost:8080
-          predicates:a
+          predicates:
             - Path=/yanolja/**
           filters:
             - RewritePath=/yanolja/(?<path>.*),/$\{path}
