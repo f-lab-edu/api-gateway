@@ -1,25 +1,27 @@
 server:
-  port: 9200 #8800
-
-spring:
-  application:
-    name: yanolja-service
-    #  cloud:
-    #    gateway:
-    #      routes:
-    #        - id: yanolja-service
-    #          uri: http://localhost:8080
-    #          predicates:
-    #            - Path=/yanolja/**
-    #          filters:
-    #            - RewritePath=/yanolja/(?<path>.*),/$\{path}
+  port: 8800
 
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: true #유레카 클라이언트 활성화
+    fetch-registry: true #DefaultZone의 유레카 서버에서 클라리언트 정보를 가져옴(캐싱해놓는다)
   service-url:
-    default-zone: http://localhost:8761/eureka
+    default-zone: http://localhost:8761/eureka # 유레카 클라이언트로 등록
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: yanolja-service
+          uri: http://localhost:8080
+          predicates:
+            - Path=/yanolja/**
+          filters:
+            - RewritePath=/yanolja/(?<path>.*),/$\{path}
+
+
 
 
 
