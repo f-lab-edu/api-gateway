@@ -14,12 +14,19 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: spring-service
+          #uri: http://localhost:9002
+          uri: lb://SPRING-SERVICE
+          predicates:
+            - Path=/spring-service/**
         - id: yanolja-service
-          uri: http://localhost:8080
+          #uri: http://localhost:8080
+          uri: lb://YANOLJA-SERVICE
           predicates:
             - Path=/yanolja/**
           filters:
             - RewritePath=/yanolja/(?<path>.*),/$\{path}
+
 
 
 
