@@ -1,13 +1,30 @@
 server:
   port: 8800
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true #client측에서 캐싱할수 있도록 설정
+  server:
+    wait-time-in-ms-when-sync-empty: 5
+  service-url:
+    defaultZone: http://localhost:8080
+
 spring:
+  main:
+    web-application-type: reactive
   cloud:
     gateway:
       routes:
         - id: yanolja-service
           uri: http://localhost:8080
-          predicates:
+          predicates:a
             - Path=/yanolja/**
           filters:
             - RewritePath=/yanolja/(?<path>.*),/$\{path}
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.springframework.web: DEBUG
 
