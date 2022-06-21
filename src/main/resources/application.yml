@@ -1,28 +1,90 @@
 server:
   port: 8800
 
+#유레카 클라이언트 생성
 eureka:
   client:
     register-with-eureka: true #유레카 클라이언트 활성화
     fetch-registry: true #DefaultZone의 유레카 서버에서 클라리언트 정보를 가져옴(캐싱해놓는다)
   service-url:
     default-zone: http://localhost:8761/eureka # 유레카 클라이언트로 등록
+  instance:
+    prefer-ip-address: true
+
+#actuator를 통한 정보 조회
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#  endpoint:
+#    shutdown:
+#      enabled: true
+#    health:
+#      show-detail: ALWAYS
+#  health:
+#    circuitBreakers:
+#      enabled: true #actuator로 circuitbreak 상태확인
 
 spring:
+  main:
+    web-application-type: REACTIVE
   application:
     name: gateway-service
+  output:
+    ansi:
+      enabled: ALWAYS
   cloud:
+    httpclient:
+      connect-timeout: 1000
+      response-timeout: 1000ms
     gateway:
+      default-filters:
+        - CircuitBreaker
+        - name: Retry
+          args:
+            retries: 3
+            fallbackUri: forward:/fallback
       routes:
+        - id: spring-service
+          #uri: http://localhost:9002
+          uri: lb://SPRING-SERVICE
+          predicates:
+            - Path=/spring-service/**
         - id: yanolja-service
-          uri: http://localhost:8080
+          #uri: http://localhost:8080
+          uri: lb://YANOLJA-SERVICE
           predicates:
             - Path=/yanolja/**
           filters:
             - RewritePath=/yanolja/(?<path>.*),/$\{path}
 
+#서킷브레이커 설정
+#resilience4j.circuitbreaker: #실패횟수가 기준치를 넘을경우 circuit을 열어 일정기간동안 실행되지 않고 바로 실패(retry, bulkhead,ratelimiter, timelimiter)
+#    configs:
+#      default:
+#        registerHealthIndicator: true
+#        slidingWindowType: TIME_BASED #defalut : COUNT_BASED
+#        slidingWindowSize: 1
+#        minimumNumberOfCalls: 3
+#        permittedNumberOfCallsInHalfOpenState: 3
+#        automaticTransitionFromOpenToHalfOpenEnabled: true
+#        waitDurationInOpenState: 5s
+#        failureRateThreshold: 50
+#        eventConsumerBufferSize: 10
+#        recordExceptions:
+#          - org.springframework.web.client.HttpServerErrorException
+#          - java.util.concurrent.TimeoutException
+#          - java.io.IOException
+#    instances:
+#      mainService:
+#        baseConfig: default
 
-
+logging:
+  level:
+    io:
+      github:
+        reseilience4j: DEBUG
 
 
 
