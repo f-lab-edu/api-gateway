@@ -10,4 +10,7 @@ spring:
             - Path=/yanolja/**
           filters:
             - RewritePath=/yanolja/(?<path>.*),/$\{path}
-
+            - JwtAuthentication=ROLE_USER
+jwt:
+  secret: moondysmellwebapplicationsecret
+  expiration-second: 28800
