@@ -34,7 +34,13 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  config:
+    import: "optional:configserver:http://localhost:8888/"
   cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-service
     httpclient:
       connect-timeout: 1000
       response-timeout: 1000ms
