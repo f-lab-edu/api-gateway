@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
 
-
-//@ConditionalOnClass({CircuitBreaker.class, HealthIndicator.class})
 @Configuration
 public class CustomizeCircuitBreakerConfig {
 
