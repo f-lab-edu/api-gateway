@@ -1,15 +1,15 @@
 server:
   port: 8800
 
-#유레카 클라이언트 생성
-eureka:
-  client:
-    register-with-eureka: true #유레카 클라이언트 활성화
-    fetch-registry: true #DefaultZone의 유레카 서버에서 클라리언트 정보를 가져옴(캐싱해놓는다)
-  service-url:
-    default-zone: http://localhost:8761/eureka # 유레카 클라이언트로 등록
-  instance:
-    prefer-ip-address: true
+##유레카 클라이언트 생성
+#eureka:
+#  client:
+#    register-with-eureka: true #유레카 클라이언트 활성화
+#    fetch-registry: true #DefaultZone의 유레카 서버에서 클라리언트 정보를 가져옴(캐싱해놓는다)
+#  service-url:
+#    default-zone: http://localhost:8761/eureka # 유레카 클라이언트로 등록
+#  instance:
+#    prefer-ip-address: true
 spring:
   main:
     web-application-type: REACTIVE
@@ -20,8 +20,8 @@ spring:
       enabled: ALWAYS
   cloud:
     httpclient:
-      connect-timeout: 1000
-      response-timeout: 1000ms
+      connect-timeout: 10000
+      response-timeout: 10000ms
     gateway:
       default-filters:
         - CircuitBreaker
@@ -30,22 +30,25 @@ spring:
             retries: 3
             fallbackUri: forward:/fallback
       routes:
-        - id: spring-service
-          #uri: http://localhost:9002
-          uri: lb://SPRING-SERVICE
-          predicates:
-            - Path=/spring-service/**
+#        - id: spring-service
+#          #uri: http://localhost:9002
+#          uri: lb://SPRING-SERVICE
+#          predicates:
+#            - Path=/spring-service/**
         - id: yanolja-service
-          #uri: http://localhost:8080
-          uri: lb://YANOLJA-SERVICE
+          uri: http://localhost:8080
+#          uri: lb://YANOLJA-SERVICE
           predicates:
             - Path=/yanolja/**
           filters:
             - RewritePath=/yanolja/(?<path>.*),/$\{path}
             - JwtAuthentication=ROLE_USER
+circuit-breaker:
+  timeout-duration-millisecond: 20000
+
 jwt:
   secret: moondysmellwebapplicationsecret
-  expiration-second: 28800
+  expiration-second: 259200  #72시간
 logging:
   level:
     io:

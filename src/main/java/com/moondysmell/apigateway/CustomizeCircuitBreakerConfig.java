@@ -3,6 +3,7 @@ package com.moondysmell.apigateway;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,9 @@ import java.time.Duration;
 //@ConditionalOnClass({CircuitBreaker.class, HealthIndicator.class})
 @Configuration
 public class CustomizeCircuitBreakerConfig {
+
+    @Value("${circuit-breaker.timeout-duration-millisecond}")
+    private int TIMEOUT_DURATION;
 
     @Bean
     public ReactiveResilience4JCircuitBreakerFactory defaultCustomizer() {
@@ -30,7 +34,7 @@ public class CustomizeCircuitBreakerConfig {
 
         ReactiveResilience4JCircuitBreakerFactory factory = new ReactiveResilience4JCircuitBreakerFactory();
         factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
-                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(200)).build())
+                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(TIMEOUT_DURATION)).build())
                 .circuitBreakerConfig(circuitBreakerConfig).build());
 
         return factory;
