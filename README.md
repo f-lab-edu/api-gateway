@@ -33,6 +33,12 @@
     - config 설정 파일 내 eureka 설정파일 등록 시 fetch 실패 이슈 발생
     - eureka 설정파일은 디스펜서 의존 이슈로 인하여 따로 관리
 
+## Future Work
+
+- JWT : user-service와 Gateway에 Redis연동하여 토큰 유효성 보안 강화
+- Redis 연결 : JWT 토큰 캐싱을 위한 DB연결
+- Cloud연결 : 컴파일한 서비스들을 함께 실행 할 수 있도록 cloud 연결
+
 ## **브랜치 관리 전략**
 
 - Issue 생성 → Issue 번호를 딴 branch 생성
