@@ -10,22 +10,6 @@ eureka:
     default-zone: http://localhost:8761/eureka # 유레카 클라이언트로 등록
   instance:
     prefer-ip-address: true
-
-#actuator를 통한 정보 조회
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-#  endpoint:
-#    shutdown:
-#      enabled: true
-#    health:
-#      show-detail: ALWAYS
-#  health:
-#    circuitBreakers:
-#      enabled: true #actuator로 circuitbreak 상태확인
-
 spring:
   main:
     web-application-type: REACTIVE
@@ -42,8 +26,8 @@ spring:
         enabled: true
         service-id: config-service
     httpclient:
-      connect-timeout: 1000
-      response-timeout: 1000ms
+      connect-timeout: 10000
+      response-timeout: 10000ms
     gateway:
       default-filters:
         - CircuitBreaker
@@ -52,18 +36,45 @@ spring:
             retries: 3
             fallbackUri: forward:/fallback
       routes:
-        - id: spring-service
-          #uri: http://localhost:9002
-          uri: lb://SPRING-SERVICE
-          predicates:
-            - Path=/spring-service/**
+#        - id: spring-service
+#          #uri: http://localhost:9002
+#          uri: lb://SPRING-SERVICE
+#          predicates:
+#            - Path=/spring-service/**
         - id: yanolja-service
-          #uri: http://localhost:8080
-          uri: lb://YANOLJA-SERVICE
+          uri: http://localhost:8080
+#          uri: lb://YANOLJA-SERVICE
           predicates:
             - Path=/yanolja/**
           filters:
             - RewritePath=/yanolja/(?<path>.*),/$\{path}
+            - JwtAuthentication=ROLE_USER
+circuit-breaker:
+  timeout-duration-millisecond: 20000
+
+jwt:
+  secret: moondysmellwebapplicationsecret
+  expiration-second: 259200  #72시간
+logging:
+  level:
+    io:
+      github:
+        reseilience4j: DEBUG  
+#actuator를 통한 정보 조회
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#  endpoint:
+#    shutdown:
+#      enabled: true
+#    health:
+#      show-detail: ALWAYS
+#  health:
+#    circuitBreakers:
+#      enabled: true #actuator로 circuitbreak 상태확인
+
 
 #서킷브레이커 설정
 #resilience4j.circuitbreaker: #실패횟수가 기준치를 넘을경우 circuit을 열어 일정기간동안 실행되지 않고 바로 실패(retry, bulkhead,ratelimiter, timelimiter)
@@ -86,11 +97,7 @@ spring:
 #      mainService:
 #        baseConfig: default
 
-logging:
-  level:
-    io:
-      github:
-        reseilience4j: DEBUG
+
 
 
 
