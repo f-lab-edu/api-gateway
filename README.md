@@ -59,5 +59,5 @@ keyword
 - User Service : [https://github.com/dayoungMM/login-Oauth2.git](https://github.com/dayoungMM/login-Oauth2.git)
 - Yanolja Service : [https://github.com/f-lab-edu/yanolja-clone.git](https://github.com/f-lab-edu/yanolja-clone.git)
 - Eureka Server : [https://github.com/smellHyang/eureka-server.git](https://github.com/smellHyang/eureka-server.git)
-- Config Server : [https://github.com/smellHyang/msa-config.git](https://github.com/smellHyang/msa-config.git)
+- Config Server : [https://github.com/smellHyang/config-server.git](https://github.com/smellHyang/config-server.git)
 - Config git : [https://github.com/smellHyang/msa-config.git](https://github.com/smellHyang/msa-config.git)
