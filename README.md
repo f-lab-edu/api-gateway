@@ -2,6 +2,7 @@
 
 ## 프로젝트 목표
 
+- Microservice Architecture의 전반적인 이해 및 패턴 구현
 - 추후 프로젝트에 쓸 API Gateway를 구축
 - 안전한 API 유통과 Client 별 요청을 유연하게 대처
 
