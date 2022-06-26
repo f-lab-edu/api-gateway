@@ -7,10 +7,13 @@
 
 ## 사용 기술 및 환경
 
+![image](https://user-images.githubusercontent.com/73684562/175821292-6d00517f-011b-4ebb-893a-11a42622ecaa.png)
+
 - Spring Cloud Gateway
-- Eureka
-- JWT
+- Spring Cloud Circuit Breaker
+- Spring Cloud Eureka
 - Spring Cloud Config
+- JWT
 
 ## 이슈
 
@@ -21,6 +24,14 @@
 - [JWT] Gateway에서 JWT 발행 기능을 구현하면 로그인 기능을 구현해야하기 때문에 업무가 과중되는 문제
     - 로그인, JWT 발행은 user-mgmt 서비스에 구현.
     - 추후 개발 예정 서비스 로직: (Gateway 거쳐) user-mgmt API로 로그인 → JWT 토큰 발행 → Redis에 저장 → Client에 JWT 토큰 전달 → Client가 Request할 때 JWT 토큰 담아 전송 → Gateway 가 Decoding 하여 정보 확인 → Redis 정보와 비교하여 유효성 더블 체크
+- [ Circuit Breaker] Histrix → Resilience4J
+    - 2018년도 이후 Netflix에서 Histrix를 유지보수로만 관리한다고 발표 후 Spring Cloud Netflix도 동일, 따라서 Spring cloud와의 호환성 및 확장성을 위하여 Resilience4j로 대체
+- [ Circuit Breaker] Resilience4J의 application.yml configuration 이슈
+    - application.yml에서 관련 설정값을 변경하여도 반영되지 않는 이슈
+    - resilience4j의 버전 문제로 추측하여 java configuration(CustomizeCircuirBreakerConfig.java)로 처리하여 정상 반영 확인
+- [ Config ] Eureka config server fetching issue
+    - config 설정 파일 내 eureka 설정파일 등록 시 fetch 실패 이슈 발생
+    - eureka 설정파일은 디스펜서 의존 이슈로 인하여 따로 관리
 
 ## **브랜치 관리 전략**
 
