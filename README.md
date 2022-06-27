@@ -7,14 +7,12 @@
 - 안전한 API 유통과 Client 별 요청을 유연하게 대처
 
 ## 사용 기술 및 환경
+<img src="https://img.shields.io/badge/Gateway-Spring Cloud Gateway-green"/> <img src="https://img.shields.io/badge/Circuit Breaker-Spring Cloud Circuit Breaker-green"/>  <img src="https://img.shields.io/badge/Service Discovery-Spring Cloud Eureka-green"/> <img src="https://img.shields.io/badge/Config Management-Spring Cloud Config-green"/> <img src="https://img.shields.io/badge/Authentication-JWT-red"/>
 
 ![image](https://user-images.githubusercontent.com/73684562/175821292-6d00517f-011b-4ebb-893a-11a42622ecaa.png)
 
-- Spring Cloud Gateway
-- Spring Cloud Circuit Breaker
-- Spring Cloud Eureka
-- Spring Cloud Config
-- JWT
+
+
 
 ## 이슈
 
